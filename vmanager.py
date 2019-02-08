@@ -20,7 +20,7 @@ def startvm(vmlist, timeout):
 
 def stopvm(vmlist):
 	for vm in vmlist:
-		subprocess.call("sudo -u user{} VBoxManage contolvm {} acpipowerbutton".format(int(vm[2]),vm),shell=True, stderr=subprocess.STDOUT, stdout=FNULL)
+		subprocess.call("sudo -u user{} VBoxManage controlvm {} acpipowerbutton".format(int(vm[2]),vm),shell=True, stderr=subprocess.STDOUT, stdout=FNULL)
 		print("\033[1;31m[~]\033[0;37m Stopping VM \033[1;37m{}\033[0m\033[0;37m on \033[1;37muser{}\033[0m".format(vm,int(vm[2])))
 		if vmlist != []:
 			time.sleep(0.25)
@@ -41,7 +41,7 @@ def getstats(vmlist):
 def showgui(vmlist):
 	for vm in vmlist:
 		print("\033[1;33m[~]\033[1;37m Trying to get GUI for VM \033[1;33m{}\033[0m".format(vm))
-		subprocess.call("sudo -u user{} VBoxManage startvm {} --type separate".format(int(vm[2]),vm),shell=True, stderr=subprocess.STDOUT, stdout=FNULL)
+		subprocess.call("xhost local:user{};sudo -u user{} export DISPLAY=:1;sudo -u user{} VBoxManage startvm {} --type separate".format(int(vm[2]),int(vm[2]),int(vm[2]),vm),shell=True, stderr=subprocess.STDOUT, stdout=FNULL)
 		if vmlist != []:
 			time.sleep(2)
 
